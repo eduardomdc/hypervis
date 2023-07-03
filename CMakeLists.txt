@@ -8,6 +8,8 @@ include_directories(${SDL2_INCLUDE_DIRS})
 set(MY_SOURCES
     src/main.cpp
     src/hyper.cpp
+    src/draw.cpp
+    src/geometry.cpp
 )
 
 add_executable(hypervis ${MY_SOURCES})
