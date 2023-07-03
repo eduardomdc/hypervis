@@ -10,6 +10,7 @@ set(MY_SOURCES
     src/hyper.cpp
     src/draw.cpp
     src/geometry.cpp
+    src/algebra.cpp
 )
 
 add_executable(hypervis ${MY_SOURCES})

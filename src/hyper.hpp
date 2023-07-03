@@ -17,6 +17,10 @@ public:
     SDL_Renderer* renderer;
     SDL_Window* window;
     std::vector<object> objects;
+    std::vector<object> changedObjects;
+
+    float angle;
+    float angSpeed;
 };
 
 #endif

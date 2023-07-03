@@ -13,7 +13,7 @@ int main(){
     while(hyper->running){
         hyper->render();
         delta = SDL_GetTicks()-time;
-        hyper->update(delta);
+        hyper->update(spf);
         hyper->input();
         if (delta < spf){
             SDL_Delay(spf-delta);

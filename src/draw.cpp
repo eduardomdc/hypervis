@@ -23,4 +23,15 @@ void drawObject(object obj, SDL_Renderer* renderer){
         SDL_Point point = atScreen(p2d);
         SDL_RenderDrawPoint(renderer, point.x, point.y);
     }
+    for (int i=0; i<obj.edges.size(); i++){
+        point2d p2da = {
+            obj.points[obj.edges[i].idxa].vec[0],
+            obj.points[obj.edges[i].idxa].vec[1]
+        };
+        point2d p2db = {
+            obj.points[obj.edges[i].idxb].vec[0],
+            obj.points[obj.edges[i].idxb].vec[1]
+        };
+        drawLine(p2da, p2db, renderer);
+    }
 }

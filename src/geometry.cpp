@@ -4,32 +4,42 @@
 object makeCube(float size){
     object cube;
     cube.dimension = 3;
-    cube.points = new pointnd[8];
     cube.numPoints = 8;
-    cube.edges = new edge[12];
     cube.numEdges = 12;
-    int pointCount = 0;
-    int edgeCount = 0;
-    for (float zPlane = -size/2; zPlane <= size/2; zPlane+=size){
-        for (float yPlane = -size/2; yPlane <= size/2; yPlane+=size){
-            for (float xPlane = -size/2; xPlane <= size/2; xPlane+=size){
-                pointnd* point = &cube.points[pointCount];
-                point->vec = new float[cube.dimension];
+    int count = 0;
+    for (int z=0; z<=1; z+=1){
+        for (int y=0; y<=1; y+=1){
+            for (int x=0; x<=1; x+=1){
+                pointnd* point = new pointnd();
                 point->dim = 3;
-                point->vec[0] = xPlane;
-                point->vec[1] = yPlane;
-                point->vec[2] = zPlane;
-                pointCount++;
+                point->vec.push_back(size*(x-0.5));
+                point->vec.push_back(size*(y-0.5));
+                point->vec.push_back(size*(z-0.5));
+                if (x==1) cube.edges.push_back({count-1, count});
+                if (y==1) cube.edges.push_back({count-2, count});
+                if (z==1) cube.edges.push_back({count-4, count});
+                cube.points.push_back(*point);
+                count++;
             }
         }
     }
     return cube;
 }
 
-void rotateAroundX(object obj, float ang){
+object rotateAroundX(object obj, float ang){
     for (int i=0; i<obj.numPoints; i++){
         pointnd* point = &obj.points[i];
         point->vec[1] = point->vec[1]*cos(ang) - point->vec[2]*sin(ang);
         point->vec[2] = point->vec[1]*sin(ang) + point->vec[2]*cos(ang);
     }
+    return obj;
+}
+
+object rotateAroundY(object obj, float ang){
+    for (int i=0; i<obj.numPoints; i++){
+        pointnd* point = &obj.points[i];
+        point->vec[0] = point->vec[0]*cos(ang) - point->vec[2]*sin(ang);
+        point->vec[2] = point->vec[0]*sin(ang) + point->vec[2]*cos(ang);
+    }
+    return obj;
 }
