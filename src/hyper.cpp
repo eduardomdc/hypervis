@@ -13,11 +13,11 @@ Hyper::Hyper(){
     running = true;
     window = nullptr;
     renderer = nullptr;
-    object cube = makeCube(100);
+    object cube = makeCube(0.5);
     objects.push_back(cube);
     changedObjects.push_back(cube);
     angle = 0;
-    angSpeed = 0.001;
+    angSpeed = 0.0001;
 }
 
 void Hyper::initSDL(int width, int height){
@@ -44,15 +44,15 @@ void Hyper::render(){
     SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     drawLine({-100, 100}, {100,100}, renderer);
-    drawObject(changedObjects[0], renderer);
+    drawObject(objects[0], renderer);
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderPresent(renderer);
 }
 
 void Hyper::update(Uint32 dt){
     angle += angSpeed*dt;
-    //changedObjects[0] = rotateAroundX(objects[0], angle);
-    changedObjects[0] = rotateAroundY(objects[0], angle);
+    objects[0] = rotateAroundX(objects[0], 0.01);
+    //objects[0] = renormalizeObject(objects[0]);
     SDL_RenderPresent(renderer);
 }
 

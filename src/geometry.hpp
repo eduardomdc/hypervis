@@ -29,5 +29,6 @@ typedef struct object {
 object makeCube(float size);
 object rotateAroundX(object obj, float ang);
 object rotateAroundY(object obj, float ang);
+object renormalizeObject(object obj);
 
 #endif

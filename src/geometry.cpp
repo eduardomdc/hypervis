@@ -1,4 +1,5 @@
 #include "geometry.hpp"
+#include "algebra.hpp"
 #include <math.h>
 
 object makeCube(float size){
@@ -40,6 +41,13 @@ object rotateAroundY(object obj, float ang){
         pointnd* point = &obj.points[i];
         point->vec[0] = point->vec[0]*cos(ang) - point->vec[2]*sin(ang);
         point->vec[2] = point->vec[0]*sin(ang) + point->vec[2]*cos(ang);
+    }
+    return obj;
+}
+
+object renormalizeObject(object obj){
+    for (int i=0; i<obj.points.size(); i++){
+        renormalize(&obj.points[i]);
     }
     return obj;
 }

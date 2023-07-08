@@ -6,8 +6,8 @@
 
 SDL_Point atScreen(point2d p){
     SDL_Point point;
-    point.x = int(p.x)+WIDTH/2;
-    point.y = int(p.y)+HEIGHT/2;
+    point.x = int(p.x*HEIGHT/2+int(WIDTH/2));
+    point.y = int(p.y*HEIGHT/2+int(HEIGHT/2));
     return point;
 }
 
