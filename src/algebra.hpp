@@ -10,9 +10,16 @@ typedef struct matrix {
     int height;
 } matrix;
 
+pointnd randomPoint(int dim);
+pointnd emptyPoint(int dim);
+float dotp(pointnd a, pointnd b);
+pointnd scale(pointnd vec, float val);
+pointnd project(pointnd vec, pointnd projecter);
 void renormalize(pointnd* vec);
 matrix multiply(matrix a, matrix b);
 pointnd apply(matrix t, pointnd vec);
-matrix makeRotMatrix(pointnd axis, float ang);
+object rotateObj(object obj, std::vector<pointnd> axy, float ang);
+matrix makeRotMatrix3d(pointnd axis, float ang);
+std::vector<pointnd> orthogonalbasis(std::vector<pointnd> axy);
 
 #endif

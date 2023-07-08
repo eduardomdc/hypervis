@@ -12,6 +12,8 @@ typedef struct pointnd {
     std::vector<float> vec;
     int dim;
 } pointnd;
+pointnd operator+(pointnd a, pointnd b);
+pointnd operator-(pointnd a, pointnd b);
 
 typedef struct edge {
     int idxa;
@@ -26,6 +28,7 @@ typedef struct object {
     int dimension;
 } object;
 
+void printPoint(pointnd p);
 object makeCube(float size);
 object rotateAroundX(object obj, float ang);
 object rotateAroundY(object obj, float ang);

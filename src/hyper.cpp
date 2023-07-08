@@ -3,9 +3,11 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_stdinc.h>
 #include <SDL2/SDL_video.h>
+#include "algebra.hpp"
 #include "draw.hpp"
 #include "geometry.hpp"
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -18,6 +20,13 @@ Hyper::Hyper(){
     changedObjects.push_back(cube);
     angle = 0;
     angSpeed = 0.0001;
+    std::vector<pointnd> axy; 
+    pointnd axis;
+    axis.dim = 3;
+    axis.vec = {1, 0, 1};
+    renormalize(&axis);
+    axy.push_back(axis);
+    rotBasis = orthogonalbasis(axy);
 }
 
 void Hyper::initSDL(int width, int height){
@@ -44,14 +53,17 @@ void Hyper::render(){
     SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     drawLine({-100, 100}, {100,100}, renderer);
-    drawObject(objects[0], renderer);
+    for (int i=0; i<changedObjects.size(); i++){
+        drawObject(changedObjects[i], renderer);
+    }
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderPresent(renderer);
 }
 
 void Hyper::update(Uint32 dt){
-    angle += angSpeed*dt;
-    objects[0] = rotateAroundX(objects[0], 0.01);
+    angle += angSpeed*dt*4;
+    changedObjects[0] = rotateObj(objects[0], rotBasis, angle);
+    //changedObjects[0] = rotateAroundY(changedObjects[0], angle);
     //objects[0] = renormalizeObject(objects[0]);
     SDL_RenderPresent(renderer);
 }

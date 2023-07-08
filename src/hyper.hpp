@@ -19,6 +19,7 @@ public:
     std::vector<object> objects;
     std::vector<object> changedObjects;
 
+    std::vector<pointnd> rotBasis;
     float angle;
     float angSpeed;
 };

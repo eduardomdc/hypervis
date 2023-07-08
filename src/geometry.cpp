@@ -1,6 +1,38 @@
 #include "geometry.hpp"
 #include "algebra.hpp"
 #include <math.h>
+#include <iostream>
+
+
+pointnd operator+(pointnd a, pointnd b){
+    if (a.vec.size() != b.vec.size()){
+        std::cout<<"invalid vector addition"<<std::endl;
+        return a;
+    }
+    for (int i=0; i<a.vec.size(); i++){
+        a.vec[i] += b.vec[i];
+    }
+    return a;
+}
+
+pointnd operator-(pointnd a, pointnd b){
+    if (a.vec.size() != b.vec.size()){
+        std::cout<<"invalid vector addition"<<std::endl;
+        return a;
+    }
+    for (int i=0; i<a.vec.size(); i++){
+        a.vec[i] -= b.vec[i];
+    }
+    return a;
+}
+
+void printPoint(pointnd p){
+    std::cout<<"[";
+    for(int i=0; i<p.vec.size(); i++){
+        std::cout<<p.vec[i]<<", ";
+    }
+    std::cout<<"]"<<std::endl;
+}
 
 object makeCube(float size){
     object cube;
