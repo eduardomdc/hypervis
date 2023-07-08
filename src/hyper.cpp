@@ -23,7 +23,7 @@ Hyper::Hyper(){
     std::vector<pointnd> axy; 
     pointnd axis;
     axis.dim = 3;
-    axis.vec = {1, 0, 1};
+    axis.vec = {0, 1, 1};
     renormalize(&axis);
     axy.push_back(axis);
     rotBasis = orthogonalbasis(axy);

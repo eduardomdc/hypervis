@@ -53,8 +53,8 @@ pointnd apply(matrix t, pointnd vec);
 
 object rotateObj(object obj, std::vector<pointnd> basis, float ang){
     int dim = obj.points[0].vec.size();
-    pointnd rotatedx = basis[basis.size()-1];
-    pointnd rotatedy = basis[basis.size()-2];
+    pointnd rotatedx = basis[basis.size()-2];
+    pointnd rotatedy = basis[basis.size()-1];
     // go through every point of object
     // change only components of rotated plane
     for (int i=0; i<obj.points.size(); i++){
@@ -63,8 +63,8 @@ object rotateObj(object obj, std::vector<pointnd> basis, float ang){
         pointnd py = project(p, rotatedy);
         p = p - px - py;
         pointnd temppx = px;
-        px = scale(px, cos(ang)) - scale(py, sin(ang));
-        py = scale(temppx, sin(ang)) + scale(py, cos(ang));
+        px = scale(px, cos(ang)) + scale(py, sin(ang));
+        py = scale(py, cos(ang)) - scale(temppx, sin(ang));
         p = p + px + py;
         obj.points[i] = p;
     }
