@@ -2,6 +2,7 @@
 #include "algebra.hpp"
 #include <math.h>
 #include <iostream>
+#include <vector>
 
 
 pointnd operator+(pointnd a, pointnd b){
@@ -32,6 +33,43 @@ void printPoint(pointnd p){
         std::cout<<p.vec[i]<<", ";
     }
     std::cout<<"]"<<std::endl;
+}
+
+object cubeface(object cube, float size, int dim, int side){
+    if (dim > 0){
+        std::cout<<"cubeface(dim:"<<dim-1<<");"<<std::endl;
+        cube = cubeface(cube, size, dim-1, 0);
+        cube = cubeface(cube, size, dim-1, 1);
+    } else {
+        int len = cube.points.size(); //points so far
+        int d = cube.dimension;
+        pointnd point;
+        point.dim = d;
+        for(int i=0; i < d; i++){
+            point.vec.push_back(size*(((len>>i)&1)-0.5));
+        }
+        printPoint(point);
+        cube.points.push_back(point);
+        for(int i=0; i < 32; i++){//int has 32 bits
+            if ((len>>i)&1){
+                cube.edges.push_back({len, len-(1<<i)});
+                std::cout<<"edge: "<<len<<"-"<<len-(1<<i)<<std::endl;
+            }
+        }
+    }
+    return cube;
+}
+
+object makeNCube(float size, int dim){
+    object ncube;
+    ncube.dimension = dim; 
+    ncube = cubeface(ncube, size, dim, 0);
+    std::cout<<"Created "<<dim<<"-dimensional hypercube."<<std::endl;
+    std::cout<<ncube.points.size()<<" points/ "<<ncube.edges.size()<<" edges"<<std::endl;
+    for(int i=0;i<ncube.points.size();i++){
+        printPoint(ncube.points[i]);
+    }
+    return ncube;
 }
 
 object makeCube(float size){

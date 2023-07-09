@@ -29,6 +29,7 @@ typedef struct object {
 } object;
 
 void printPoint(pointnd p);
+object makeNCube(float size, int dim);
 object makeCube(float size);
 object rotateAroundX(object obj, float ang);
 object rotateAroundY(object obj, float ang);

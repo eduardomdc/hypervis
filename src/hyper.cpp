@@ -15,17 +15,14 @@ Hyper::Hyper(){
     running = true;
     window = nullptr;
     renderer = nullptr;
-    object cube = makeCube(0.5);
+    object cube = makeNCube(0.5,4);
     objects.push_back(cube);
     changedObjects.push_back(cube);
     angle = 0;
     angSpeed = 0.0001;
     std::vector<pointnd> axy; 
-    pointnd axis;
-    axis.dim = 3;
-    axis.vec = {1, 2, 0};
-    renormalize(&axis);
-    axy.push_back(axis);
+    axy.push_back({{2,0,0, -1}, 4});
+    axy.push_back({{0,1,3,0},4});
     rotBasis = orthogonalbasis(axy);
 }
 
@@ -51,7 +48,7 @@ void Hyper::initSDL(int width, int height){
 
 void Hyper::render(){
     SDL_RenderClear(renderer);
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     for (int i=0; i<changedObjects.size(); i++){
         drawObject(changedObjects[i], renderer);
     }
@@ -63,7 +60,6 @@ void Hyper::render(){
 void Hyper::update(Uint32 dt){
     angle += angSpeed*dt*20;
     changedObjects[0] = rotateObj(objects[0], rotBasis, angle);
-    SDL_RenderPresent(renderer);
 }
 
 
