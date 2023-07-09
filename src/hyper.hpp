@@ -24,4 +24,6 @@ public:
     float angSpeed;
 };
 
+extern Hyper* hyper;
+
 #endif

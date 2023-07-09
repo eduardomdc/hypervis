@@ -23,7 +23,7 @@ Hyper::Hyper(){
     std::vector<pointnd> axy; 
     pointnd axis;
     axis.dim = 3;
-    axis.vec = {0, 1, 1};
+    axis.vec = {1, 2, 0};
     renormalize(&axis);
     axy.push_back(axis);
     rotBasis = orthogonalbasis(axy);
@@ -52,19 +52,17 @@ void Hyper::initSDL(int width, int height){
 void Hyper::render(){
     SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    drawLine({-100, 100}, {100,100}, renderer);
     for (int i=0; i<changedObjects.size(); i++){
         drawObject(changedObjects[i], renderer);
     }
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    drawBasis(rotBasis, renderer);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderPresent(renderer);
 }
 
 void Hyper::update(Uint32 dt){
-    angle += angSpeed*dt*4;
+    angle += angSpeed*dt*20;
     changedObjects[0] = rotateObj(objects[0], rotBasis, angle);
-    //changedObjects[0] = rotateAroundY(changedObjects[0], angle);
-    //objects[0] = renormalizeObject(objects[0]);
     SDL_RenderPresent(renderer);
 }
 

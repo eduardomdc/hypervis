@@ -3,11 +3,12 @@
 #include "main.hpp"
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
+#include <vector>
 
 SDL_Point atScreen(point2d p){
     SDL_Point point;
     point.x = int(p.x*HEIGHT/2+int(WIDTH/2));
-    point.y = int(p.y*HEIGHT/2+int(HEIGHT/2));
+    point.y = int(-p.y*HEIGHT/2+int(HEIGHT/2));
     return point;
 }
 
@@ -34,4 +35,16 @@ void drawObject(object obj, SDL_Renderer* renderer){
         };
         drawLine(p2da, p2db, renderer);
     }
+}
+
+void drawBasis(std::vector<pointnd> basis, SDL_Renderer *renderer){
+    std::vector<short> colors = {255,0,0};
+    SDL_Point origin = atScreen({0,0});
+    for(int i=0; i<basis.size(); i++){
+        SDL_SetRenderDrawColor(renderer,colors[i%3],colors[(i+1)%3],colors[(i+2)%3],255);
+        point2d p2d = {basis[i].vec[0], basis[i].vec[1]};
+        SDL_Point point = atScreen(p2d);
+        SDL_RenderDrawLine(renderer, origin.x, origin.y, point.x, point.y);
+    }
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 }

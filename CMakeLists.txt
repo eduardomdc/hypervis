@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.26)
 project(hypervis)
 
-find_package(SDL2 REQUIRED)
+find_package(SDL2 2.28.1 REQUIRED)
 
 include_directories(${SDL2_INCLUDE_DIRS})
 

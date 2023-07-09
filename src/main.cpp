@@ -1,11 +1,14 @@
 #include "main.hpp"
+#include "hyper.hpp"
 #include <SDL2/SDL_timer.h>
 #include <iostream>
 #include <SDL2/SDL.h>
 
+Hyper* hyper;
+
 int main(){
     std::cout<<"Initializing..."<<std::endl;
-    Hyper* hyper = new Hyper(); 
+    hyper = new Hyper();
     hyper->initSDL(WIDTH, HEIGHT);
     Uint32 time = SDL_GetTicks();
     Uint32 delta;

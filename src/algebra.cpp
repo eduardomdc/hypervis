@@ -1,5 +1,7 @@
 #include "algebra.hpp"
 #include "geometry.hpp"
+#include "draw.hpp"
+#include "hyper.hpp"
 #include <cmath>
 #include <cstdlib>
 #include <math.h>
@@ -59,13 +61,16 @@ object rotateObj(object obj, std::vector<pointnd> basis, float ang){
     // change only components of rotated plane
     for (int i=0; i<obj.points.size(); i++){
         pointnd p = obj.points[i];
-        pointnd px = project(p, rotatedx); //vector components on rotation plane
+        //vector components on rotation plane
+        pointnd px = project(p, rotatedx); 
         pointnd py = project(p, rotatedy);
+        float dotpx = dotp(px, rotatedx);
+        float dotpy = dotp(py, rotatedy);
         p = p - px - py;
-        pointnd temppx = px;
-        px = scale(px, cos(ang)) + scale(py, sin(ang));
-        py = scale(py, cos(ang)) - scale(temppx, sin(ang));
-        p = p + px + py;
+        float temp = dotpx;
+        dotpx = dotpx*cos(ang) - dotpy*sin(ang);
+        dotpy = temp*sin(ang) + dotpy*cos(ang);
+        p = p + scale(rotatedx, dotpx) + scale(rotatedy, dotpy);
         obj.points[i] = p;
     }
     return obj;
