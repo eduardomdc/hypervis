@@ -87,6 +87,29 @@ pointnd randomPoint(int dim){
     return random;
 }
 
+std::vector<pointnd> rotateBasis(std::vector<pointnd> basis, std::vector<int> idxplane, float angle){
+    int dim = basis[0].vec.size();
+    std::vector<pointnd> projects;
+    for(int i=0; i<basis.size(); i++){
+        basis[i].vec[idxplane[0]] = basis[i].vec[idxplane[0]]*cos(angle) - basis[i].vec[idxplane[1]]*sin(angle);
+        basis[i].vec[idxplane[1]] = basis[i].vec[idxplane[0]]*sin(angle) + basis[i].vec[idxplane[1]]*cos(angle);
+    }
+    return basis;
+}
+
+std::vector<pointnd> defaultbasis(int dimension){
+    std::vector<pointnd> basis;
+    for (int i=0; i<dimension; i++){
+        pointnd bpoint;
+        for (int j=0; j<dimension; j++){
+            bpoint.vec.push_back(float(i==j));
+        } 
+        printPoint(bpoint);
+        basis.push_back(bpoint);
+    }
+    return basis;
+}
+
 std::vector<pointnd> orthogonalbasis(std::vector<pointnd> axy){
     std::vector<pointnd> basis;
     int initialVectors = axy.size();
@@ -106,6 +129,16 @@ std::vector<pointnd> orthogonalbasis(std::vector<pointnd> axy){
     std::cout<<"basis:"<<std::endl;
     for(int i=0;i<basis.size(); i++){
         printPoint(basis[i]);
+    }
+    return basis;
+}
+
+std::vector<pointnd> reorthogonalize(std::vector<pointnd> basis){
+    for (int step=0; step<basis.size(); step++){
+        for(int i=0; i<step; i++){
+            basis[step] = basis[step] - project(basis[step], basis[i]);
+        }
+        renormalize(&basis[step]);
     }
     return basis;
 }

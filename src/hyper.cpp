@@ -15,15 +15,16 @@ Hyper::Hyper(){
     running = true;
     window = nullptr;
     renderer = nullptr;
-    object cube = makeNCube(0.5,4);
+    object cube = makeNCube(0.5, 3);
     objects.push_back(cube);
     changedObjects.push_back(cube);
     angle = 0;
     angSpeed = 0.0001;
     std::vector<pointnd> axy; 
-    axy.push_back({{2,0,0, -1}, 4});
-    axy.push_back({{0,1,3,0},4});
-    rotBasis = orthogonalbasis(axy);
+    axy.push_back({{1,0,0,0}, 4});
+    axy.push_back({{0,1,0,1},4});
+    //rotBasis = orthogonalbasis(axy);
+    rotBasis = defaultbasis(3);
 }
 
 void Hyper::initSDL(int width, int height){
@@ -58,7 +59,7 @@ void Hyper::render(){
 }
 
 void Hyper::update(Uint32 dt){
-    angle += angSpeed*dt*20;
+    angle += angSpeed*dt;
     changedObjects[0] = rotateObj(objects[0], rotBasis, angle);
 }
 
@@ -78,6 +79,32 @@ void Hyper::input(){
         switch (current.type) {
         case SDL_QUIT:
             quit();
+            break;
+        case SDL_KEYDOWN:
+            switch (current.key.keysym.sym){
+            case SDLK_i:
+                angSpeed = angSpeed*1.1;
+                break;
+            case SDLK_k:
+                angSpeed = angSpeed*0.9;
+                break;
+            case SDLK_w:
+                rotBasis = rotateBasis(rotBasis, {1,2}, 0.1);
+                rotBasis = reorthogonalize(rotBasis);
+                break;
+            case SDLK_s:
+                rotBasis = rotateBasis(rotBasis, {1,2}, -0.1);
+                rotBasis = reorthogonalize(rotBasis);
+                break;
+            case SDLK_d:
+                rotBasis = rotateBasis(rotBasis, {0,1}, -0.1);
+                rotBasis = reorthogonalize(rotBasis);
+                break;
+            case SDLK_a:
+                rotBasis = rotateBasis(rotBasis, {0,1}, 0.1);
+                rotBasis = reorthogonalize(rotBasis);
+                break;
+            }
         }
     }
 }

@@ -35,11 +35,10 @@ void printPoint(pointnd p){
     std::cout<<"]"<<std::endl;
 }
 
-object cubeface(object cube, float size, int dim, int side){
+object cuboid(object cube, float size, int dim){
     if (dim > 0){
-        std::cout<<"cubeface(dim:"<<dim-1<<");"<<std::endl;
-        cube = cubeface(cube, size, dim-1, 0);
-        cube = cubeface(cube, size, dim-1, 1);
+        cube = cuboid(cube, size, dim-1);
+        cube = cuboid(cube, size, dim-1);
     } else {
         int len = cube.points.size(); //points so far
         int d = cube.dimension;
@@ -48,12 +47,10 @@ object cubeface(object cube, float size, int dim, int side){
         for(int i=0; i < d; i++){
             point.vec.push_back(size*(((len>>i)&1)-0.5));
         }
-        printPoint(point);
         cube.points.push_back(point);
         for(int i=0; i < 32; i++){//int has 32 bits
             if ((len>>i)&1){
                 cube.edges.push_back({len, len-(1<<i)});
-                std::cout<<"edge: "<<len<<"-"<<len-(1<<i)<<std::endl;
             }
         }
     }
@@ -63,12 +60,7 @@ object cubeface(object cube, float size, int dim, int side){
 object makeNCube(float size, int dim){
     object ncube;
     ncube.dimension = dim; 
-    ncube = cubeface(ncube, size, dim, 0);
-    std::cout<<"Created "<<dim<<"-dimensional hypercube."<<std::endl;
-    std::cout<<ncube.points.size()<<" points/ "<<ncube.edges.size()<<" edges"<<std::endl;
-    for(int i=0;i<ncube.points.size();i++){
-        printPoint(ncube.points[i]);
-    }
+    ncube = cuboid(ncube, size, dim);
     return ncube;
 }
 
@@ -95,24 +87,6 @@ object makeCube(float size){
         }
     }
     return cube;
-}
-
-object rotateAroundX(object obj, float ang){
-    for (int i=0; i<obj.numPoints; i++){
-        pointnd* point = &obj.points[i];
-        point->vec[1] = point->vec[1]*cos(ang) - point->vec[2]*sin(ang);
-        point->vec[2] = point->vec[1]*sin(ang) + point->vec[2]*cos(ang);
-    }
-    return obj;
-}
-
-object rotateAroundY(object obj, float ang){
-    for (int i=0; i<obj.numPoints; i++){
-        pointnd* point = &obj.points[i];
-        point->vec[0] = point->vec[0]*cos(ang) - point->vec[2]*sin(ang);
-        point->vec[2] = point->vec[0]*sin(ang) + point->vec[2]*cos(ang);
-    }
-    return obj;
 }
 
 object renormalizeObject(object obj){

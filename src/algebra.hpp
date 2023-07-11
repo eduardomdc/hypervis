@@ -19,7 +19,8 @@ void renormalize(pointnd* vec);
 matrix multiply(matrix a, matrix b);
 pointnd apply(matrix t, pointnd vec);
 object rotateObj(object obj, std::vector<pointnd> axy, float ang);
-matrix makeRotMatrix3d(pointnd axis, float ang);
+std::vector<pointnd> defaultbasis(int dimension);
 std::vector<pointnd> orthogonalbasis(std::vector<pointnd> axy);
-
+std::vector<pointnd> reorthogonalize(std::vector<pointnd> basis);
+std::vector<pointnd> rotateBasis(std::vector<pointnd> basis, std::vector<int> idxplane, float angle);
 #endif
