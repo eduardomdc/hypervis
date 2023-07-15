@@ -15,14 +15,14 @@ Hyper::Hyper(){
     running = true;
     window = nullptr;
     renderer = nullptr;
-    object cube = makeNCube(0.5, 3);
+    object cube = makeNCube(0.5, 4);
     objects.push_back(cube);
     changedObjects.push_back(cube);
     angle = 0;
     angSpeed = 0.0001;
     std::vector<pointnd> axy; 
-    axy.push_back({{1,0,0,0}, 4});
-    axy.push_back({{0,1,0,1},4});
+    //axy.push_back({{1,0,0,0}, 4});
+    //axy.push_back({{0,1,0,1},4});
     //rotBasis = orthogonalbasis(axy);
     rotBasis = defaultbasis(3);
 }
@@ -60,7 +60,7 @@ void Hyper::render(){
 
 void Hyper::update(Uint32 dt){
     angle += angSpeed*dt;
-    changedObjects[0] = rotateObj(objects[0], rotBasis, angle);
+    changedObjects[0] = objBasisTransform(objects[0], rotBasis);
 }
 
 

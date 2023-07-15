@@ -142,3 +142,13 @@ std::vector<pointnd> reorthogonalize(std::vector<pointnd> basis){
     }
     return basis;
 }
+
+object objBasisTransform(object obj, std::vector<pointnd> basis){
+    for (int i=0; i<obj.points.size(); i++){
+        pointnd tempp = obj.points[i];
+        for(int j=0; j<basis.size(); j++){
+            obj.points[i].vec[j] = dotp(tempp, basis[j]);
+        }
+    }
+    return obj;
+}
