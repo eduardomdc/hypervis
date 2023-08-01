@@ -8,7 +8,7 @@ Hyper* hyper;
 
 int main(){
     std::cout<<"Initializing..."<<std::endl;
-    hyper = new Hyper();
+    hyper = new Hyper(2);
     hyper->initSDL(WIDTH, HEIGHT);
     Uint32 time = SDL_GetTicks();
     Uint32 delta;

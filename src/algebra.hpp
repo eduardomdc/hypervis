@@ -12,6 +12,7 @@ typedef struct matrix {
 
 pointnd randomPoint(int dim);
 pointnd emptyPoint(int dim);
+pointnd canonical(int idx, int dim);
 float dotp(pointnd a, pointnd b);
 pointnd scale(pointnd vec, float val);
 pointnd project(pointnd vec, pointnd projecter);

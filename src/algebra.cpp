@@ -87,12 +87,39 @@ pointnd randomPoint(int dim){
     return random;
 }
 
+pointnd canonical(int idx, int dim){
+    pointnd axis;
+    axis.dim = dim;
+    for (int i=0; i<dim; i++){
+        if (i==idx) axis.vec.push_back(1);
+        else axis.vec.push_back(0);
+    }
+    return axis;
+}
+
 std::vector<pointnd> rotateBasis(std::vector<pointnd> basis, std::vector<int> idxplane, float angle){
     int dim = basis[0].vec.size();
     std::vector<pointnd> projects;
+    /*
     for(int i=0; i<basis.size(); i++){
         basis[i].vec[idxplane[0]] = basis[i].vec[idxplane[0]]*cos(angle) - basis[i].vec[idxplane[1]]*sin(angle);
         basis[i].vec[idxplane[1]] = basis[i].vec[idxplane[0]]*sin(angle) + basis[i].vec[idxplane[1]]*cos(angle);
+    }*/
+    for (int i=0; i<basis.size(); i++){
+        pointnd vector = basis[i];
+        //vector components on rotation plane
+        pointnd a_axis = basis[idxplane[0]];
+        pointnd b_axis = basis[idxplane[1]];
+        pointnd va = project(vector, a_axis);
+        pointnd vb = project(vector, b_axis);
+        vector = vector - va - vb; // remove ones off axis
+        float dotva = dotp(va, a_axis);
+        float dotvb = dotp(vb, b_axis);
+        float temp = dotva;
+        dotva = dotva*cos(angle) - dotvb*sin(angle);
+        dotvb = temp*sin(angle) + dotvb*cos(angle);
+        vector = vector + scale(a_axis, dotva) + scale(b_axis, dotvb);
+        basis[i] = vector;
     }
     return basis;
 }

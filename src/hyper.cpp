@@ -11,20 +11,18 @@
 
 using namespace std;
 
-Hyper::Hyper(){
+Hyper::Hyper(int dimension){
+    this->dimension = dimension;
     running = true;
     window = nullptr;
     renderer = nullptr;
-    object cube = makeNCube(0.5, 4);
+    object cube = makeNCube(0.5, dimension);
     objects.push_back(cube);
     changedObjects.push_back(cube);
     angle = 0;
-    angSpeed = 0.0001;
+    angSpeed = 0.1;
     std::vector<pointnd> axy; 
-    //axy.push_back({{1,0,0,0}, 4});
-    //axy.push_back({{0,1,0,1},4});
-    //rotBasis = orthogonalbasis(axy);
-    rotBasis = defaultbasis(3);
+    rotBasis = defaultbasis(dimension);
 }
 
 void Hyper::initSDL(int width, int height){
@@ -82,29 +80,100 @@ void Hyper::input(){
             break;
         case SDL_KEYDOWN:
             switch (current.key.keysym.sym){
-            case SDLK_i:
-                angSpeed = angSpeed*1.1;
+            case SDLK_x:
+                angSpeed = angSpeed*2;
                 break;
-            case SDLK_k:
-                angSpeed = angSpeed*0.9;
+            case SDLK_z:
+                angSpeed = angSpeed*0.5;
                 break;
             case SDLK_w:
-                rotBasis = rotateBasis(rotBasis, {1,2}, 0.1);
-                rotBasis = reorthogonalize(rotBasis);
+                if(dimension>2){
+                    rotBasis = rotateBasis(rotBasis, {1,2}, angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
                 break;
             case SDLK_s:
-                rotBasis = rotateBasis(rotBasis, {1,2}, -0.1);
-                rotBasis = reorthogonalize(rotBasis);
+                if (dimension>2){
+                    rotBasis = rotateBasis(rotBasis, {1,2}, -angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
                 break;
             case SDLK_d:
-                rotBasis = rotateBasis(rotBasis, {0,1}, -0.1);
-                rotBasis = reorthogonalize(rotBasis);
+                if (dimension>2){
+                    rotBasis = rotateBasis(rotBasis, {0,2}, -angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
                 break;
             case SDLK_a:
-                rotBasis = rotateBasis(rotBasis, {0,1}, 0.1);
-                rotBasis = reorthogonalize(rotBasis);
+                if (dimension>2){
+                    rotBasis = rotateBasis(rotBasis, {0,2}, angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
+                break;
+            case SDLK_q:
+                if (dimension>1){
+                    rotBasis = rotateBasis(rotBasis, {0,1}, -angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
+                break;
+            case SDLK_e:
+                if (dimension>1){
+                    rotBasis = rotateBasis(rotBasis, {0,1}, angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
+                break;
+            case SDLK_i:
+                if (dimension>3){
+                    rotBasis = rotateBasis(rotBasis, {1,3}, -angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
+                break;
+            case SDLK_k:
+                if (dimension>3){
+                    rotBasis = rotateBasis(rotBasis, {1,3}, angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
+                break;
+            case SDLK_u:
+                if (dimension>3){
+                    rotBasis = rotateBasis(rotBasis, {0,3}, -angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
+                break;
+            case SDLK_o:
+                if (dimension>3){
+                    rotBasis = rotateBasis(rotBasis, {0,3}, angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
+                break;
+            case SDLK_l:
+                if (dimension>3){
+                    rotBasis = rotateBasis(rotBasis, {2,3}, -angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
+                break;
+            case SDLK_j:
+                if (dimension>3){
+                    rotBasis = rotateBasis(rotBasis, {2,3}, angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
+                break;
+            case SDLK_m:
+                setDimension(dimension+1);
+                break;
+            case SDLK_n:
+                if (dimension>2)
+                setDimension(this->dimension-1);
                 break;
             }
         }
     }
+}
+
+void Hyper::setDimension(int dimension){
+    this->dimension = dimension;
+    rotBasis = defaultbasis(dimension);
+    object cube = makeNCube(0.5, dimension);
+    objects[0] = cube;
+    changedObjects[0] = cube;
 }
