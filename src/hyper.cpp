@@ -124,35 +124,35 @@ void Hyper::input(){
                 break;
             case SDLK_i:
                 if (dimension>3){
-                    rotBasis = rotateBasis(rotBasis, {1,3}, -angSpeed);
+                    rotBasis = rotateBasis(rotBasis, {1,3}, angSpeed);
                     rotBasis = reorthogonalize(rotBasis);
                 }
                 break;
             case SDLK_k:
                 if (dimension>3){
-                    rotBasis = rotateBasis(rotBasis, {1,3}, angSpeed);
+                    rotBasis = rotateBasis(rotBasis, {1,3}, -angSpeed);
                     rotBasis = reorthogonalize(rotBasis);
                 }
                 break;
-            case SDLK_u:
+            case SDLK_j:
                 if (dimension>3){
                     rotBasis = rotateBasis(rotBasis, {0,3}, -angSpeed);
                     rotBasis = reorthogonalize(rotBasis);
                 }
                 break;
-            case SDLK_o:
+            case SDLK_l:
                 if (dimension>3){
                     rotBasis = rotateBasis(rotBasis, {0,3}, angSpeed);
                     rotBasis = reorthogonalize(rotBasis);
                 }
                 break;
-            case SDLK_l:
+            case SDLK_o:
                 if (dimension>3){
                     rotBasis = rotateBasis(rotBasis, {2,3}, -angSpeed);
                     rotBasis = reorthogonalize(rotBasis);
                 }
                 break;
-            case SDLK_j:
+            case SDLK_u:
                 if (dimension>3){
                     rotBasis = rotateBasis(rotBasis, {2,3}, angSpeed);
                     rotBasis = reorthogonalize(rotBasis);
