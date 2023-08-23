@@ -1,9 +1,13 @@
 #include "draw.hpp"
 #include "geometry.hpp"
 #include "algebra.hpp"
+#include "hyper.hpp"
 #include "main.hpp"
+#include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
+#include <SDL2/SDL_surface.h>
+#include <SDL2/SDL_ttf.h>
 #include <vector>
 
 SDL_Point atScreen(pointnd p){
@@ -39,4 +43,11 @@ void drawBasis(std::vector<pointnd> basis, SDL_Renderer *renderer){
         SDL_RenderDrawLine(renderer, origin.x, origin.y, point.x+origin.x, point.y+origin.y);
     }
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+}
+
+SDL_Texture* writeText(const char* text, SDL_Color color){
+    SDL_Surface* surf = TTF_RenderText_Solid(hyper->font, text, color);
+    SDL_Texture* tex = SDL_CreateTextureFromSurface(hyper->renderer, surf);
+    SDL_FreeSurface(surf);
+    return tex;
 }

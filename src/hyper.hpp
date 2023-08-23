@@ -18,9 +18,10 @@ public:
     bool running;
     SDL_Renderer* renderer;
     SDL_Window* window;
+    TTF_Font* font;
+    SDL_Texture* text;
     std::vector<object> objects;
     std::vector<object> changedObjects;
-
     std::vector<pointnd> rotBasis;
     float angle;
     float angSpeed;

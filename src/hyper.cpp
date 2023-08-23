@@ -1,11 +1,14 @@
 #include "hyper.hpp"
 #include <SDL2/SDL_events.h>
+#include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_stdinc.h>
+#include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_video.h>
 #include "algebra.hpp"
 #include "draw.hpp"
 #include "geometry.hpp"
+#include <cstdio>
 #include <iostream>
 #include <vector>
 
@@ -42,7 +45,15 @@ void Hyper::initSDL(int width, int height){
         cout<<"SDL renderer error"<<endl;
         return;
     } 
+    
+    TTF_Init();
+    if (!TTF_WasInit()){
+        cout<<"SDL_TTF error"<<endl;
+        return;
+    }
+    font = TTF_OpenFont("../Arial.ttf", 25);
     cout<<"SDL OK!"<<endl;
+    setDimension(2);
 }
 
 void Hyper::render(){
@@ -53,6 +64,11 @@ void Hyper::render(){
     }
     drawBasis(rotBasis, renderer);
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+    int texW = 0;
+    int texH = 0;
+    SDL_QueryTexture(text, NULL, NULL, &texW, &texH);
+    SDL_Rect dstrect = {0, 0, texW, texH};
+    SDL_RenderCopy(renderer, text, NULL, &dstrect);
     SDL_RenderPresent(renderer);
 }
 
@@ -67,6 +83,8 @@ void Hyper::quit(){
     running = false;
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
+    TTF_CloseFont(font);
+    TTF_Quit();
     SDL_Quit();
     cout<<"SDL killed"<<endl;
 }
@@ -176,4 +194,7 @@ void Hyper::setDimension(int dimension){
     object cube = makeNCube(0.5, dimension);
     objects[0] = cube;
     changedObjects[0] = cube;
+    char str[100];
+    sprintf(str, "%d-dimensional cube", dimension);
+    text = writeText(str, {255,255,255,255});
 }
