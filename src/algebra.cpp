@@ -131,7 +131,6 @@ std::vector<pointnd> defaultbasis(int dimension){
         for (int j=0; j<dimension; j++){
             bpoint.vec.push_back(float(i==j));
         } 
-        printPoint(bpoint);
         basis.push_back(bpoint);
     }
     return basis;
@@ -152,10 +151,6 @@ std::vector<pointnd> orthogonalbasis(std::vector<pointnd> axy){
         }
         renormalize(&another);
         basis.push_back(another);
-    }
-    std::cout<<"basis:"<<std::endl;
-    for(int i=0;i<basis.size(); i++){
-        printPoint(basis[i]);
     }
     return basis;
 }

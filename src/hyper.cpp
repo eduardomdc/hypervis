@@ -1,5 +1,6 @@
 #include "hyper.hpp"
 #include <SDL2/SDL_events.h>
+#include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_stdinc.h>
@@ -51,7 +52,7 @@ void Hyper::initSDL(int width, int height){
         cout<<"SDL_TTF error"<<endl;
         return;
     }
-    font = TTF_OpenFont("../Arial.ttf", 25);
+    font = TTF_OpenFont("../roboto.ttf", 20);
     cout<<"SDL OK!"<<endl;
     setDimension(2);
 }
@@ -176,7 +177,56 @@ void Hyper::input(){
                     rotBasis = reorthogonalize(rotBasis);
                 }
                 break;
+            case SDLK_h:
+                if (dimension>4){
+                    rotBasis = rotateBasis(rotBasis, {0,4}, angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
+                break;
+            case SDLK_f:
+                if (dimension>4){
+                    rotBasis = rotateBasis(rotBasis, {0,4}, -angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
+                break;
+            case SDLK_t:
+                if (dimension>4){
+                    rotBasis = rotateBasis(rotBasis, {1,4}, angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
+                break;
+            case SDLK_g:
+                if (dimension>4){
+                    rotBasis = rotateBasis(rotBasis, {1,4}, -angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
+                break;
+            case SDLK_y:
+                if (dimension>4){
+                    rotBasis = rotateBasis(rotBasis, {2,4}, -angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
+                break;
+            case SDLK_r:
+                if (dimension>4){
+                    rotBasis = rotateBasis(rotBasis, {2,4}, angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
+                break;
+            case SDLK_v:
+                if (dimension>4){
+                    rotBasis = rotateBasis(rotBasis, {3,4}, -angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
+                break;
+            case SDLK_b:
+                if (dimension>4){
+                    rotBasis = rotateBasis(rotBasis, {3,4}, angSpeed);
+                    rotBasis = reorthogonalize(rotBasis);
+                }
+                break;
             case SDLK_m:
+                if (dimension<5)
                 setDimension(dimension+1);
                 break;
             case SDLK_n:
@@ -194,7 +244,7 @@ void Hyper::setDimension(int dimension){
     object cube = makeNCube(0.5, dimension);
     objects[0] = cube;
     changedObjects[0] = cube;
-    char str[100];
-    sprintf(str, "%d-dimensional cube", dimension);
+    char str[200];
+    sprintf(str, "%d-dimensional cube\n\n\n\n\nControls\n-------\nchange dimensions\n N,M\n\nrotations\n QWE RTY UIO\n ASD FGH JKL\n     VB\nchange speed\nZ,X", dimension);
     text = writeText(str, {255,255,255,255});
 }

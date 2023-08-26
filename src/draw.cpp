@@ -46,7 +46,7 @@ void drawBasis(std::vector<pointnd> basis, SDL_Renderer *renderer){
 }
 
 SDL_Texture* writeText(const char* text, SDL_Color color){
-    SDL_Surface* surf = TTF_RenderText_Solid(hyper->font, text, color);
+    SDL_Surface* surf = TTF_RenderText_Blended_Wrapped(hyper->font, text, color, 200);
     SDL_Texture* tex = SDL_CreateTextureFromSurface(hyper->renderer, surf);
     SDL_FreeSurface(surf);
     return tex;
